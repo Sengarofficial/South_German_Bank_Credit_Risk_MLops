@@ -1,0 +1,37 @@
+stages:
+  cassandra:
+    cmd: python src/db_connect.py
+    deps:
+    - src/db_connect.py
+    outs:
+    - data/raw_datasets/train.csv
+    - data/raw_datasets/test.csv
+
+  process_data:
+    cmd: python src/processed.py --config=params.yaml
+    deps:
+    - src/processed.py
+    - data/raw_datasets/train.csv
+    - data/raw_datasets/test.csv
+    outs:
+    - data/processed/Processed_Train.csv
+    - data/processed/Processed_Test.csv
+
+  train_and_evaluate_data:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - data/processed/Processed_Train.csv
+    - src/train_and_evaluate.py
+    params:
+    - estimators.XGBClassifier.params.booster
+    - estimators.XGBClassifier.params.learning_rate
+    - estimators.XGBClassifier.params.max_depth
+    - estimators.XGBClassifier.params.n_estimators
+    metrics:
+    - report/scores.json:
+        cache: false
+    - report/params.json:
+        cache: false
+    outs:
+    - saved_models/scale_models/scaling.pkl
+    - saved_models/model.joblib

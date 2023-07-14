@@ -1,0 +1,17 @@
+dvc 
+flask
+statistics
+numpy 
+pandas 
+matplotlib 
+seaborn 
+ipykernel
+scipy
+scikit-learn
+catboost
+xgboost
+lightgbm
+imblearn
+cassandra-driver
+python-dotenv
+-e .

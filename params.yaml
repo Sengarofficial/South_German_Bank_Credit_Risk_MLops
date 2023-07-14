@@ -1,0 +1,34 @@
+base:
+  project: credit risk-project
+  random_state: 42
+  target_col: credit_risk
+  test_size: 0.2
+
+data_source:
+  cassandra_source_train: data/raw_datasets/train.csv
+  cassandra_source_test: data/raw_datasets/test.csv
+
+processed_data:
+  processed_train: data/processed/Processed_Train.csv
+  processed_test: data/processed/Processed_Test.csv
+
+
+estimators:
+  XGBClassifier:
+    params:
+      booster: gbtree
+      learning_rate : 0.5
+      max_depth : 8
+      n_estimators : 30
+
+
+saved_models:
+  classifier: saved_models/prediction_models
+  scaler: saved_models/scale_models
+
+
+reports:
+  params: report/params.json
+  scores: report/scores.json
+
+webapp_model_dir: prediction_service/model/model.joblib
